@@ -48,11 +48,12 @@ short default_count;
 char *caps;
 }cap_user;
 
+#ifdef _RDK_VIDEO_PRIV_CAPS_
 // check for blocklist process
 bool isBlocklisted(void);
-
-// fetch the blocklist rfc
-bool fetchRFC(char* key,char** value);
+#else
+static inline bool isBlocklisted(void) { return false; }
+#endif
 
 /* initializes cap_t structure */
 cap_t init_capability(void);
