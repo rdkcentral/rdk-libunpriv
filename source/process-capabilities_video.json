@@ -1,0 +1,15 @@
+{
+   "default":"CAP_CHOWN,CAP_KILL,CAP_SYS_NICE,CAP_SETPCAP,CAP_SYS_CHROOT",
+   "SYSTEM_GROUP":"CAP_SYS_RESOURCE",
+   "NETWORK_GROUP":"CAP_NET_ADMIN,CAP_NET_RAW,CAP_NET_BIND_SERVICE",
+   "UGID_GROUP":"CAP_SETGID,CAP_SETUID",
+
+   "testapp":{
+      "allow":"",
+      "drop":""
+   },
+   "foo":{
+      "allow":"SYSTEM_GROUP,NETWORK_GROUP",
+      "drop":"CAP_DAC_OVERRIDE"
+   }
+}
