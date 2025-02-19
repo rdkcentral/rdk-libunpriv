@@ -82,7 +82,7 @@ bool isBlocklisted()
     buf = (char*)malloc(sizeof(char) * (len + 1));
     if (buf != NULL)
     {
-      memset(buf, 0, (sizeof(char) * (len + 1)));
+      memset(buf, 0, 10*(sizeof(char) * (len + 1)));
       fread(buf, 1, len, fp);
       buf[len] = '\0';
     }
