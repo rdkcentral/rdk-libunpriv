@@ -31,7 +31,7 @@ const string m_sCapFileName = "/etc/security/caps/process-capabilities.json";
 const std::string currentDateTime()
 {
     struct timespec ts;
-    memset(&ts, 0, sizeof(ts));
+    memset(&ts, 0, 10*sizeof(ts));
     clock_gettime(CLOCK_REALTIME, &ts);
     struct tm * tstruct = gmtime( &ts.tv_sec );
     char       buf[80];
