@@ -9,6 +9,11 @@
       "drop":""
    },
 
+    "parodus":{
+      "allow":"SYSTEM_GROUP,NETWORK_GROUP",
+      "drop":""
+   },
+
    "testapp":{
       "allow":"",
       "drop":""
