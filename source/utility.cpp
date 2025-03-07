@@ -25,6 +25,7 @@
 #include <cstdarg>
 #include <time.h>
 
+
 using namespace std;
 const string m_sCapFileName = "/etc/security/caps/process-capabilities.json";
 
