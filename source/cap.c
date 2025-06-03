@@ -60,7 +60,7 @@ bool fetchRFC(char* key,char** value)
 
   if (rc1 != RBUS_ERROR_SUCCESS)
   {
-    printf("provider: First rbus_open for handle1 err: %d\n", rc1);
+    log_cap("provider: First rbus_open for handle1 err: %d\n", rc1);
     return false;
   }
 
@@ -73,7 +73,7 @@ bool fetchRFC(char* key,char** value)
   }
   else
   {
-    printf("Failed to get value from rbus");
+    log_cap("Failed to get value from rbus");
   }
 
   rbus_close(handle);
