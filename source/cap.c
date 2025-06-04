@@ -20,6 +20,7 @@
 #include "cap.h"
 #include "utility.h"
 #include <string.h>
+#include <rbus.h>
 
 static cap_t caps;
 
@@ -48,12 +49,42 @@ bool fetchRFC(char* key,char** value)
 {
 #ifdef _RDK_VIDEO_PRIV_CAPS_
  RFC_ParamData_t nonrootsupportData;
- WDMP_STATUS nonrootstatus= getRFCParameter("NonRootSupport",key, &nonrootsupportData);
-  if (WDMP_SUCCESS == nonrootstatus && (!isNull(nonrootsupportData.value)))
+ RFC_ParamData_t nonrootsupportData;
+ rbusHandle_t handle;
+ rbusValue_t val;
+
+ int rc1;
+ char componentName[] = "libunpriv";
+ bool result = false;
+ int len = 0;
+ char const* data = NULL;
+ rc1 = rbus_open(&handle, componentName);
+
+ if (rc1 != RBUS_ERROR_SUCCESS)
+ {
+   log_cap("provider: First rbus_open for handle1 err: %d\n", rc1);
+   return false;
+ }
+
+ rc1 = rbus_get(handle, key, &val);
+
+ if(rc1 == RBUS_ERROR_SUCCESS) 
+ {
+   data = rbusValue_GetString(val);
+   rbusValue_Release(val);
+ }
+ else
+ {
+    log_cap("Failed to get value from rbus");
+ }
+
+ rbus_close(handle);
+  
+ if (rc1 == RBUS_ERROR_SUCCESS && (!isNull(data)))
   {
-     *value = (char*)malloc(strlen(nonrootsupportData.value)+1);
+     *value = (char*)malloc(strlen(data)+1);
      if( NULL != *value ){
-        strncpy(*value,nonrootsupportData.value,strlen(nonrootsupportData.value)+1);
+        strncpy(*value,data,strlen(data)+1);
         return true;
      }
   }
