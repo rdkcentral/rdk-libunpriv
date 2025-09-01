@@ -9,8 +9,13 @@
       "drop":""
    },
 
-    "parodus":{
+   "parodus":{
       "allow":"SYSTEM_GROUP,NETWORK_GROUP",
+      "drop":""
+   },
+
+   "audiocapturemgr":{
+      "allow":"CAP_DAC_OVERRIDE",
       "drop":""
    },
 
@@ -18,6 +23,7 @@
       "allow":"",
       "drop":""
    },
+
    "foo":{
       "allow":"SYSTEM_GROUP,NETWORK_GROUP",
       "drop":"CAP_DAC_OVERRIDE"
