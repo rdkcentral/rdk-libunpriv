@@ -33,32 +33,31 @@
 #ifdef _RDK_VIDEO_PRIV_CAPS_
 #include "rfcapi.h"
 #endif
+
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 typedef struct _cap_user {
-cap_value_t add[CAP_LAST_CAP+1];
-cap_value_t drop[CAP_LAST_CAP+1];
-cap_value_t caps_default[CAP_LAST_CAP+1];
-char *user_name;
-short add_count;
-short drop_count;
-short default_count;
-char *caps;
-}cap_user;
+    cap_value_t add[CAP_LAST_CAP+1];
+    cap_value_t drop[CAP_LAST_CAP+1];
+    cap_value_t caps_default[CAP_LAST_CAP+1];
+    char *user_name;
+    short add_count;
+    short drop_count;
+    short default_count;
+    char *caps;
+} cap_user;
 
+#ifdef _RDK_VIDEO_PRIV_CAPS_
 // check for blocklist process
 bool isBlocklisted(void);
-
-// fetch the blocklist rfc
-bool fetchRFC(char* key,char** value);
+#else
+static inline bool isBlocklisted(void) { return false; }
+#endif
 
 /* initializes cap_t structure */
 cap_t init_capability(void);
-
-/* Application/Process specific capabilities */
-void prepare_caps(cap_user *,const cap_value_t cap_add[], const cap_value_t cap_drop[]);
 
 /* Identify the list of capabilities which need to set while run as non-root;
    Default capabilities will be applied from this function */
@@ -78,10 +77,10 @@ void gain_root_privilege();
 
 void get_capabilities(const char *processname, cap_user *);
 
-void log_cap(const char * format, ...);
+void clear_caps(cap_user *);
+
 #ifdef __cplusplus
 }
 #endif
 
 #endif //CAP_H_
-

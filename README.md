@@ -67,9 +67,6 @@ libprivilege library dependes on libcap library. libcap or linux capabilities pr
 /* Check whether calling process is Blocklisted or not */ 
 bool isBlocklisted(void);
 
-/* to fetch the RFC value */ 
-bool fetchRFC(char* key,char** value);
-
 /* initializes cap_t structure */ 
 cap_t init_capability(void);
 
