@@ -25,6 +25,16 @@
 #include <cstdarg>
 #include <time.h>
 
+#define TOKEN_DELIMITER ","
+
+#if defined (_RDK_VIDEO_PRIV_CAPS_)
+#define LOG_FILE "/opt/logs/CapDebug.txt"
+#elif defined (_COSA_INTEL_USG_ATOM_)
+#define LOG_FILE "/rdklogs/logs/CapDebug_atom.txt"
+#else
+#define LOG_FILE "/rdklogs/logs/CapDebug.txt"
+#endif
+
 using namespace std;
 const string m_sCapFileName = "/etc/security/caps/process-capabilities.json";
 
