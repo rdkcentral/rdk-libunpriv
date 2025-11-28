@@ -538,6 +538,18 @@ TEST_F(InitCapTestFixture, DropRootCaps_NoUserName_NonRoot)
     EXPECT_EQ(cu.user_name, nullptr);
 }
 
+TEST_F(InitCapTestFixture, DropRootCaps_ConfigMissing_Death)
+{
+    cap_user cu{};
+    cu.user_name = strdup("dummy");
+
+    EXPECT_EXIT(
+        drop_root_caps(&cu),
+        ::testing::ExitedWithCode(1),
+        ""
+    );
+}
+
 TEST_F(InitCapTestFixture, UpdateProcCaps_SetProcFails)
 {
     cap_user cu{};
