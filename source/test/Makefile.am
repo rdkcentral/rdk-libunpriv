@@ -30,5 +30,5 @@ libunpriv_gtest_bin_CPPFLAGS = -I$(PKG_CONFIG_SYSROOT_DIR)/googletest/include/gt
 
 libunpriv_gtest_bin_SOURCES = gtest_main.cpp  libunpriv_test.cpp ../cap.c ../utility.cpp  mocks/CapMock.cpp
 
-libunpriv_gtest_bin_LDFLAGS = -L/$(PKG_CONFIG_SYSROOT_DIR)/googletest/lib  -lgmock -lgtest -lpthread -lgcov -lgtest_main -ljsoncpp
+libunpriv_gtest_bin_LDFLAGS = -L/$(PKG_CONFIG_SYSROOT_DIR)/googletest/lib -lcap -lgmock -lgtest -lpthread -lgcov -lgtest_main -ljsoncpp
 

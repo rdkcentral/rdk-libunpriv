@@ -34,6 +34,11 @@
 #include "rfcapi.h"
 #endif
 
+#ifdef GTEST_ENABLE
+extern int __test_force_root;
+extern cap_t caps;
+#endif
+
 #ifdef __cplusplus
 extern "C" {
 #endif

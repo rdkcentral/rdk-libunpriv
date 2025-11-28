@@ -729,3 +729,44 @@ TEST_F(InitCapTestFixture, GetCapabilities_FullSuccess)
 
     unlink("/etc/security/caps/process-capabilities.json");
 }
+
+TEST_F(InitCapTestFixture, DropRootCaps_FullRootFlow_NoCrashes)
+{
+    system("mkdir -p /etc/security/caps");
+
+    std::ofstream cfg("/etc/security/caps/process-capabilities.json");
+    cfg << R"({
+        "default": "CAP_NET_RAW",
+        "testbin": {
+            "allow": "CAP_NET_ADMIN",
+            "drop": ""
+        }
+    })";
+    cfg.close();
+
+    __test_force_root = 1;   // force root path
+
+    cap_user cu{};
+    cu.user_name = strdup("nobody");
+    cu.default_count = 0;
+    cu.add_count = 0;
+    cu.drop_count = 0;
+
+    EXPECT_CALL(*g_CapMock, getpid())
+        .WillRepeatedly(Return(123));
+
+    EXPECT_CALL(*g_CapMock, getuid())
+        .WillRepeatedly(Return(0));
+
+    cap_t fake_caps = cap_init();
+    ASSERT_NE(fake_caps, nullptr);
+
+    caps = fake_caps;
+
+    int rc = drop_root_caps(&cu);
+    EXPECT_EQ(rc, 0);
+
+    cap_free(fake_caps);
+    caps = NULL;
+    __test_force_root = 0;
+}
