@@ -16,6 +16,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
+#include <cstdarg>
 #include "test/mocks/CapMock.h"
 
 extern CapMock *g_CapMock;

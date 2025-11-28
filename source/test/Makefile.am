@@ -18,7 +18,7 @@
 #
 AM_CXXFLAGS = -std=c++14 -DGTEST_ENABLE -g --coverage
 
-AM_CFLAGS = -DGTEST_ENABLE
+AM_CFLAGS = -DGTEST_ENABLE -g --coverage
 
 AUTOMAKE_OPTIONS = subdir-objects
 

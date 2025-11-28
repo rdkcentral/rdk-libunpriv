@@ -1,5 +1,6 @@
 #!/bin/sh
 cd ../
+
 ENABLE_COV=true
 
 if [ "x$1" = "x--enable-cov" ]; then
