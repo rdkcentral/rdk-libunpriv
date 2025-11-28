@@ -1,7 +1,11 @@
 #!/bin/sh
-cd ../
 
-ENABLE_COV=true
+SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
+TOP_DIR=$(cd "$SCRIPT_DIR/.." && pwd)
+cd "$TOP_DIR" || exit 1
+
+ENABLE_COV=false
+fail=0
 
 if [ "x$1" = "x--enable-cov" ]; then
     echo "Enabling coverage options"
@@ -28,11 +32,18 @@ if [ $? -ne 0 ]; then
     echo "Unit tests failed"
     exit 1
 fi
-echo "********************"
+
+echo "**********Generating Coverage Report**********"
 
 if [ "$ENABLE_COV" = true ]; then
-    echo "Generating coverage report"
     lcov --capture --directory . --output-file coverage.info
     lcov --remove coverage.info '/usr/*' '*gmocks*' '*test*' --output-file coverage.info
     lcov --list coverage.info
+fi
+
+if [ $fail -ne 0 ]; then
+    echo "Some unit tests failed."
+    exit 1
+else
+    echo "All unit tests passed."
 fi
