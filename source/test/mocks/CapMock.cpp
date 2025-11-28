@@ -137,15 +137,10 @@ extern "C" int cap_get_flag(cap_t c, cap_value_t v, cap_flag_t f, cap_flag_value
 
 extern "C" int prctl(int option, ...)
 {
-    va_list args;
-    va_start(args, option);
-
-    unsigned long arg2 = va_arg(args, unsigned long);
-    unsigned long arg3 = va_arg(args, unsigned long);
-    unsigned long arg4 = va_arg(args, unsigned long);
-    unsigned long arg5 = va_arg(args, unsigned long);
-
-    va_end(args);
+    unsigned long arg2 = 0;
+    unsigned long arg3 = 0;
+    unsigned long arg4 = 0;
+    unsigned long arg5 = 0;
 
     if (!g_CapMock)
         return 0;
