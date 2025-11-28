@@ -171,8 +171,6 @@ TEST_F(InitCapTestFixture, IsNonRoot_Negative)
     EXPECT_FALSE(isNonroot());
 }
 
-// clear_caps() <E2><80><93> with and without caps string
-
 TEST_F(InitCapTestFixture, ClearCaps_CallsFree)
 {
     cap_user appcaps{};
@@ -257,12 +255,10 @@ TEST_F(InitCapTestFixture, UpdateProcCaps_SetFlagFails)
     cu.add[0] = CAP_CHOWN;
     cu.drop_count = 0;
 
-    // First flag fails; other flags succeed
     EXPECT_CALL(*g_CapMock, cap_set_flag(_,_,_,_,_))
         .WillOnce(Return(-1))
         .WillRepeatedly(Return(0));
 
-    // cap_set_proc is still called and succeeds
     EXPECT_CALL(*g_CapMock, cap_set_proc(_))
         .Times(::testing::AnyNumber())
         .WillRepeatedly(Return(0));
@@ -353,7 +349,7 @@ TEST_F(InitCapTestFixture, PopulateCaps_GroupRecursion)
     cap_value_t out[10];
     short count = 0;
 
-    // First attempt: treat "group1" as a capability
+    //treat "group1" as a capability
     EXPECT_CALL(*g_CapMock, cap_from_name(StrEq("group1"), _))
         .Times(1)
         .WillOnce(Return(-1));
@@ -514,7 +510,7 @@ TEST_F(InitCapTestFixture, DropRootCaps_AlreadyNonRoot)
 
     EXPECT_CALL(*g_CapMock, getuid())
         .Times(1)
-        .WillOnce(Return((uid_t)1000)); // non-root
+        .WillOnce(Return((uid_t)1000));
 
 
     int rc = drop_root_caps(&cu);
@@ -539,8 +535,6 @@ TEST_F(InitCapTestFixture, DropRootCaps_NoUserName_NonRoot)
     int rc = drop_root_caps(&cu);
 
     EXPECT_EQ(rc, 0);
-
-    // IMPORTANT: user_name must remain NULL (not set)
     EXPECT_EQ(cu.user_name, nullptr);
 }
 
@@ -550,7 +544,6 @@ TEST_F(InitCapTestFixture, UpdateProcCaps_SetProcFails)
     cu.add_count = 0;
     cu.drop_count = 0;
 
-    // No flag operations expected
     EXPECT_CALL(*g_CapMock, cap_set_flag(_,_,_,_,_)).Times(::testing::AnyNumber());
 
     EXPECT_CALL(*g_CapMock, cap_set_proc(_))
@@ -562,7 +555,6 @@ TEST_F(InitCapTestFixture, UpdateProcCaps_SetProcFails)
 
 TEST_F(InitCapTestFixture, ReadCaps_ExitOnCapGetPidNull)
 {
-    // arrange fake cap_user
     cap_user cu{};
 
     // Inside death test, nothing from mocks is reliable,
@@ -570,10 +562,6 @@ TEST_F(InitCapTestFixture, ReadCaps_ExitOnCapGetPidNull)
     EXPECT_CALL(*g_CapMock, getpid())
         .WillOnce(Return((pid_t)111));
 
-    // Do NOT set expectation on cap_get_pid()
-    // because mocks do not survive the fork used by death tests.
-
-    // Death test: just confirm the function exits
     EXPECT_DEATH(
         {
             // during forked child <E2><86><92> g_CapMock may be NULL
@@ -590,10 +578,10 @@ TEST_F(InitCapTestFixture, GetProcessName_FopenFails)
 
     // Simulate process ID pointing to nonexistent file
     EXPECT_CALL(*g_CapMock, getpid())
-        .WillRepeatedly(Return(999999));  // No such /proc/999999/comm
+        .WillRepeatedly(Return(999999)); 
 
     EXPECT_CALL(*g_CapMock, getuid())
-        .WillOnce(Return((uid_t)1000)); // already non-root
+        .WillOnce(Return((uid_t)1000));
 
     int rc = drop_root_caps(&cu);
     EXPECT_EQ(rc, 0);
@@ -605,11 +593,9 @@ TEST_F(InitCapTestFixture, UpdateProcessCaps_AddAndDrop)
     cu.add_count = 2;
     cu.drop_count = 1;
 
-    // Local arrays
     cap_value_t adds[2] = { CAP_CHOWN, CAP_DAC_OVERRIDE };
     cap_value_t drops[1] = { CAP_NET_RAW };
 
-    // Copy into struct arrays
     memcpy(cu.add, adds, sizeof(adds));
     memcpy(cu.drop, drops, sizeof(drops));
 
@@ -659,7 +645,6 @@ TEST_F(InitCapTestFixture, SetAmbientCaps_FailurePath)
 
 TEST_F(InitCapTestFixture, GainRootPrivilege_SetGidFails_Death)
 {
-    // Allow mock to respond in child process
     ON_CALL(*g_CapMock, setgid(0))
         .WillByDefault(Return(-1));
 
@@ -680,7 +665,7 @@ TEST_F(InitCapTestFixture, GainRootPrivilege_SetUidFails_Death)
 TEST_F(InitCapTestFixture, PopulateCaps_GroupResolvesEmpty)
 {
     Json::Value root;
-    root["groupX"] = "";   // empty group
+    root["groupX"] = "";
 
     cap_value_t out[5];
     short count = 0;
