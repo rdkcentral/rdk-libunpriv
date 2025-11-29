@@ -18,6 +18,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Install dependencies
+        run: |
+          apt-get update
+          apt-get install -y libjsoncpp-dev libcap-dev
+
       - name: Run unit tests with coverage flags enabled
         run: |
           sh test/run_ut.sh --enable-cov
