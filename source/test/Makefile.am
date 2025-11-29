@@ -26,7 +26,7 @@ ACLOCAL_AMFLAGS = -I m4
 
 bin_PROGRAMS = libunpriv_gtest.bin
 
-libunpriv_gtest_bin_CPPFLAGS = -I$(PKG_CONFIG_SYSROOT_DIR)/googletest/include/gtest -I$(PKG_CONFIG_SYSROOT_DIR)/googletest/include/ -I$(PKG_CONFIG_SYSROOT_DIR)/googletest/googletest/include -I$(PKG_CONFIG_SYSROOT_DIR)/googletest/googlemock/include/ -I${top_srcdir}/source -I${top_srcdir}/source/include -I/usr/include/jsoncpp
+libunpriv_gtest_bin_CPPFLAGS = -I$(PKG_CONFIG_SYSROOT_DIR)/googletest/include/gtest -I$(PKG_CONFIG_SYSROOT_DIR)/googletest/include/ -I$(PKG_CONFIG_SYSROOT_DIR)/googletest/googletest/include -I$(PKG_CONFIG_SYSROOT_DIR)/googletest/googlemock/include/ -I${top_srcdir}/source -I${top_srcdir}/source/include
 
 libunpriv_gtest_bin_SOURCES = gtest_main.cpp  libunpriv_test.cpp ../cap.c ../utility.cpp  mocks/CapMock.cpp
 

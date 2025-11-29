@@ -7,7 +7,7 @@ cd "$TOP_DIR" || exit 1
 ENABLE_COV=false
 fail=0
 
-if [ "x$1" = "x--enable-cov" ]; then
+if [ "$1" = "--enable-cov" ]; then
     echo "Enabling coverage options"
     export CXXFLAGS="-g -O0 -fprofile-arcs -ftest-coverage"
     export CFLAGS="-g -O0 -fprofile-arcs -ftest-coverage"
@@ -33,10 +33,11 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-echo "**********Generating Coverage Report**********"
-
 if [ "$ENABLE_COV" = true ]; then
-    lcov --capture --directory . --output-file coverage.info
+    echo "Generating coverage report"
+    cd source/test || exit 1
+
+    lcov --capture --directory .. --output-file coverage.info
     lcov --remove coverage.info '/usr/*' '*gmocks*' '*test*' --output-file coverage.info
     lcov --list coverage.info
 fi
