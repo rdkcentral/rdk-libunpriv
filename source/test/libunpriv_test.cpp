@@ -120,6 +120,7 @@ TEST_F(InitCapTestFixture, ReadCapsTest)
 cap_t ret_cap =(cap_t) 0xffffffff;
 char retval[]="test";
 cap_user appcaps;
+appcaps.caps = strdup("old_caps");
 EXPECT_CALL(*g_CapMock, cap_get_pid(_))
                 .Times(1)
                 .WillOnce(Return(ret_cap));
