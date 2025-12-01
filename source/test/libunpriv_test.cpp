@@ -20,7 +20,6 @@
 #include "gtest/gtest.h"
 #include "test/mocks/CapMock.h"
 #include <fstream>
-#include <json/json.h>
 extern "C" {
 #include "cap.h"
 #include<string.h>
