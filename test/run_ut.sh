@@ -35,8 +35,6 @@ fi
 
 if [ "$ENABLE_COV" = true ]; then
     echo "Generating coverage report"
-    cd source/test || exit 1
-
     lcov --capture --directory .. --output-file coverage.info
     lcov --remove coverage.info '/usr/*' '*gmocks*' '*test*' --output-file coverage.info
     lcov --list coverage.info
