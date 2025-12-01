@@ -29,26 +29,25 @@ jobs:
       - name: Caculate the code coverage summary
         run: |
           cd ./source/test/
-          lcov --list coverage.info | grep "Lines\|Total" > /tmp/coverage_summary.txt
+          lcov --summary coverage.info > /tmp/coverage_summary.txt /tmp/coverage_summary.txt
           cd -
 
-      - name: Update the coverage report to Pull request using actions
+      - name: Comment coverage on Pull Request
         uses: actions/github-script@v4
         with:
           script: |
             const fs = require('fs');
-            const lcov_result = fs.readFileSync('/tmp/coverage_summary.txt', 'utf8');
+            let summary = 'Coverage summary not available';
 
-            github.issues.createComment({
+            if (fs.existsSync('/tmp/coverage_summary.txt')) {
+              summary = fs.readFileSync('/tmp/coverage_summary.txt', 'utf8');
+            }
+
+            github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body:
-                    '## Code Coverage Summary \n' +
-                    ' ' +
-                    '```' +
-                    lcov_result +
-                    '```'
+              body: '## Code Coverage Summary\n```text\n' + summary + '\n```'
             });
       - name: Generate the html report
         run: |
