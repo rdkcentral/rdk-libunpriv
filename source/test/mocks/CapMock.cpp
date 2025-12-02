@@ -126,3 +126,44 @@ extern "C" uid_t getuid()
         return g_CapMock->getuid();
 }
 
+extern "C" int cap_get_flag(cap_t c, cap_value_t v, cap_flag_t f, cap_flag_value_t *out)
+{
+    if (!g_CapMock) {
+        return -1;
+    }
+    return g_CapMock->cap_get_flag(c, v, f, out);
+}
+
+extern "C" int prctl(int option, ...)
+{
+    unsigned long arg2 = 0;
+    unsigned long arg3 = 0;
+    unsigned long arg4 = 0;
+    unsigned long arg5 = 0;
+
+    if (!g_CapMock)
+        return 0;
+
+    return g_CapMock->prctl(option, arg2, arg3, arg4, arg5);
+}
+
+extern "C" struct passwd* getpwnam(const char *u)
+{
+    return g_CapMock ? g_CapMock->getpwnam(u) : NULL;
+}
+
+extern "C" int setuid(uid_t id)
+{
+    return g_CapMock ? g_CapMock->setuid(id) : -1;
+}
+
+extern "C" int setgid(gid_t id)
+{
+    return g_CapMock ? g_CapMock->setgid(id) : -1;
+}
+
+extern "C" pid_t getpid(void)
+{
+    return g_CapMock ? g_CapMock->getpid() : 0;
+}
+

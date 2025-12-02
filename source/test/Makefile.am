@@ -18,7 +18,7 @@
 #
 AM_CXXFLAGS = -std=c++14 -DGTEST_ENABLE -g --coverage
 
-AM_CFLAGS = -DGTEST_ENABLE
+AM_CFLAGS = -DGTEST_ENABLE -g --coverage
 
 AUTOMAKE_OPTIONS = subdir-objects
 
@@ -26,9 +26,9 @@ ACLOCAL_AMFLAGS = -I m4
 
 bin_PROGRAMS = libunpriv_gtest.bin
 
-libunpriv_gtest_bin_CPPFLAGS = -I$(PKG_CONFIG_SYSROOT_DIR)/googletest/include/gtest -I$(PKG_CONFIG_SYSROOT_DIR)/googletest/include/ -I$(PKG_CONFIG_SYSROOT_DIR)/googletest/googletest/include -I$(PKG_CONFIG_SYSROOT_DIR)/googletest/googlemock/include/ -I${top_srcdir}/source -I${top_srcdir}/source/include
+libunpriv_gtest_bin_CPPFLAGS = -I$(PKG_CONFIG_SYSROOT_DIR)/googletest/include/gtest -I$(PKG_CONFIG_SYSROOT_DIR)/googletest/include/ -I$(PKG_CONFIG_SYSROOT_DIR)/googletest/googletest/include -I$(PKG_CONFIG_SYSROOT_DIR)/googletest/googlemock/include/ -I${top_srcdir}/source -I${top_srcdir}/source/include 
 
 libunpriv_gtest_bin_SOURCES = gtest_main.cpp  libunpriv_test.cpp ../cap.c ../utility.cpp  mocks/CapMock.cpp
 
-libunpriv_gtest_bin_LDFLAGS = -L/$(PKG_CONFIG_SYSROOT_DIR)/googletest/lib  -lgmock -lgtest -lpthread -lgcov -lgtest_main -ljsoncpp
+libunpriv_gtest_bin_LDFLAGS = -L/$(PKG_CONFIG_SYSROOT_DIR)/googletest/lib -lcap -lgmock -lgtest -lpthread -lgcov -lgtest_main -ljsoncpp
 

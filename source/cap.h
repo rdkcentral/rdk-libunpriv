@@ -34,6 +34,11 @@
 #include "rfcapi.h"
 #endif
 
+#ifdef GTEST_ENABLE
+extern int __test_force_root;
+extern cap_t caps;
+#endif
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -69,6 +74,9 @@ int update_process_caps(cap_user *);
 /* Read the current capability of process */
 void read_capability(cap_user *);
 
+/* check if process is non-root */
+bool isNonroot(void);
+
 /* Switch to non-root */
 bool drop_root_priv(cap_user *);
 
@@ -78,6 +86,9 @@ void gain_root_privilege();
 void get_capabilities(const char *processname, cap_user *);
 
 void clear_caps(cap_user *);
+
+/* Make inheritable caps ambient */
+void set_ambient_caps(const cap_value_t caplist[], short count, cap_flag_value_t value);
 
 #ifdef __cplusplus
 }

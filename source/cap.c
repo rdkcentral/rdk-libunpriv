@@ -21,7 +21,13 @@
 #include "utility.h"
 #include <string.h>
 
+#ifdef GTEST_ENABLE
+int __test_force_root = 0;
+
+cap_t caps = NULL;
+#else
 static cap_t caps;
+#endif
 
 #ifdef _RDK_VIDEO_PRIV_CAPS_
 
@@ -96,6 +102,11 @@ static void get_process_name(const pid_t pid, char *pname)
 /*check if process is already running as non-root*/
 bool isNonroot( )
 {
+#ifdef GTEST_ENABLE
+    if (__test_force_root) {
+        return false;   // force root path in tests
+    }
+#endif
    return ((getuid()!=0)?true:false);
 }
 
