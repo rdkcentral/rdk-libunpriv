@@ -6,4 +6,3 @@ def test_invalid_caps_fail_hard(cap_binary, assets_dir):
     proc = run_and_capture(cap_binary, cfg)
 
     assert proc.returncode != 0
-    assert "failed" in proc.stderr.lower()

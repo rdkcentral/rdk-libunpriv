@@ -1,0 +1,7 @@
+{
+  "default": "CAP_FAKE_1,CAP_FAKE_2",
+  "cap_test_process": {
+    "allow": "CAP_FAKE_3",
+    "drop": ""
+  }
+}
