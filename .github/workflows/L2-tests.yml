@@ -73,7 +73,7 @@ jobs:
     # --------------------------------------------------
     - name: Copy L2 Test Results to Host
       run: |
-        docker cp native-platform:/tmp/rdk-libunpriv_l2_report /tmp/L2_TEST_RESULTS
+        docker cp native-platform:/tmp/libunpriv_l2_report /tmp/L2_TEST_RESULTS
         ls -l /tmp/L2_TEST_RESULTS
 
     # --------------------------------------------------
