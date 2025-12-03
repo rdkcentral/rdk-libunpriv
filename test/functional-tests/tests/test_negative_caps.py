@@ -1,3 +1,4 @@
+import os
 from caps_utils import run_and_capture
 
 def test_invalid_caps_fail_hard(cap_binary, assets_dir):
