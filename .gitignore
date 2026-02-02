@@ -1,0 +1,30 @@
+# Autotools build artifacts
+/autom4te.cache/
+/m4/
+Makefile.in
+/aclocal.m4
+/compile
+/config.guess
+/config.h.in
+/config.log
+/config.sub
+/configure
+/depcomp
+/install-sh
+/ltmain.sh
+/missing
+
+# CodeQL artifacts
+/_codeql_detected_source_root
+
+# Build artifacts
+*.o
+*.lo
+*.la
+.libs/
+.deps/
+Makefile
+config.h
+config.status
+libtool
+stamp-h1
