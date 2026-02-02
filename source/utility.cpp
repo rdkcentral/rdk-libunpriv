@@ -23,6 +23,7 @@
 #include <algorithm>
 #include <cctype>
 #include <cstdarg>
+#include <utility>
 #include <time.h>
 
 #define TOKEN_DELIMITER ","
@@ -103,7 +104,7 @@ void populate_capabilities(Json::Value cfg_root, std::string caps_list, cap_valu
       if(cap_from_name(str_tmp.c_str(),&val) < 0 ){
         std::string group_list = cfg_root[str_tmp].asString();
         if(!group_list.empty()){
-           populate_capabilities(cfg_root,group_list,appcaps_list,cap_count);
+           populate_capabilities(cfg_root,std::move(group_list),appcaps_list,cap_count);
         }
       }
       else{
