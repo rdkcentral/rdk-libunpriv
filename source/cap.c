@@ -20,6 +20,7 @@
 #include "cap.h"
 #include "utility.h"
 #include <string.h>
+#include <rbus/rbus.h>
 
 #ifdef GTEST_ENABLE
 int __test_force_root = 0;
@@ -35,28 +36,44 @@ static void get_process_name(const pid_t pid, char *pname);
 
 #define BLOCKLIST_RFC "Device.DeviceInfo.X_RDKCENTRAL-COM_RFC.Feature.NonRootSupport.Blocklist"
 
-static bool isNull(char *str)
-{
- if(str == NULL || str[0] == '\0')
- {
-   return true;
- }
- return false;
-}
-
 static bool fetchRFC(char *key,char **value)
 {
- RFC_ParamData_t nonrootsupportData;
- WDMP_STATUS nonrootstatus= getRFCParameter("NonRootSupport",key, &nonrootsupportData);
-  if (WDMP_SUCCESS == nonrootstatus && (!isNull(nonrootsupportData.value)))
-  {
-     *value = (char*)malloc(strlen(nonrootsupportData.value)+1);
-     if( NULL != *value ){
-        strncpy(*value,nonrootsupportData.value,strlen(nonrootsupportData.value)+1);
-        return true;
-     }
-  }
-  return false;
+    rbusHandle_t handle = NULL;
+    rbusValue_t paramValue = NULL;
+    int rc = RBUS_ERROR_SUCCESS;
+    bool result = false;
+    const char *strValue = NULL;
+
+    
+    /* Initialize RBUS connection */
+    rc = rbus_open(&handle, "fetchRFC_client");
+    if (rc != RBUS_ERROR_SUCCESS) {
+        fprintf(stderr, "Failed to open RBUS handle: %d\n", rc);
+        return false;
+    }
+    
+    /* Get the RFC parameter value via RBUS */
+    rc = rbus_get(handle, key, &paramValue);
+    if (rc == RBUS_ERROR_SUCCESS && paramValue != NULL) {
+            strValue = rbusValue_GetString(paramValue, NULL);
+            if (strValue && strlen(strValue) > 0) {
+                *value = (char*)malloc(strlen(strValue) + 1);
+                if (*value != NULL) {
+                    strcpy(*value, strValue);
+		    log_cap("rbus get success %s=%s\n",key, strValue);
+                    result = true;
+                }
+            }
+        rbusValue_Release(paramValue);
+    }
+    else
+    {
+	log_cap("Failed to get %s: %d\n",key, rc);    
+    }
+    
+    rbus_close(handle);
+    return result;
+	
 }
 
 bool isBlocklisted()
