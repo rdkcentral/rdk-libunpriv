@@ -23,6 +23,7 @@
 #include <algorithm>
 #include <cctype>
 #include <cstdarg>
+#include <utility>
 #include <time.h>
 
 #define TOKEN_DELIMITER ","
@@ -103,7 +104,7 @@ void populate_capabilities(Json::Value cfg_root, std::string caps_list, cap_valu
       if(cap_from_name(str_tmp.c_str(),&val) < 0 ){
         std::string group_list = cfg_root[str_tmp].asString();
         if(!group_list.empty()){
-           populate_capabilities(cfg_root,group_list,appcaps_list,cap_count);
+           populate_capabilities(cfg_root,std::move(group_list),appcaps_list,cap_count);
         }
       }
       else{
@@ -128,16 +129,16 @@ void get_capabilities(const char *processname, cap_user *appcaps)
 
     std::string default_caps = cfg_root["default"].asString();
     if(!default_caps.empty()){
-       populate_capabilities(cfg_root,default_caps,appcaps->caps_default,&appcaps->default_count);
+       populate_capabilities(cfg_root,std::move(default_caps),appcaps->caps_default,&appcaps->default_count);
     }
 
     std::string allow_caps = cfg_root[processname]["allow"].asString();
     if(!allow_caps.empty()){
-       populate_capabilities(cfg_root,allow_caps,appcaps->add,&appcaps->add_count);
+       populate_capabilities(cfg_root,std::move(allow_caps),appcaps->add,&appcaps->add_count);
     }
 
     std::string drop_caps = cfg_root[processname]["drop"].asString();
     if(!drop_caps.empty()){
-       populate_capabilities(cfg_root,drop_caps,appcaps->drop,&appcaps->drop_count);
+       populate_capabilities(cfg_root,std::move(drop_caps),appcaps->drop,&appcaps->drop_count);
     }
 }
