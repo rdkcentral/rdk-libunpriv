@@ -42,8 +42,11 @@ AC_SUBST(LIBCAP_LIBS)
 
 # Check for jsoncpp using pkg-config
 PKG_CHECK_MODULES([JSONCPP], [jsoncpp], [],
-  [AC_MSG_ERROR([jsoncpp not found. Install jsoncpp-devel])]
-)
+[
+  PKG_CHECK_MODULES([JSONCPP], [libjsoncpp], [],
+    [AC_MSG_ERROR([jsoncpp pkg-config module not found])]
+  )
+])
 
 AC_SUBST(JSONCPP_CFLAGS)
 AC_SUBST(JSONCPP_LIBS)
