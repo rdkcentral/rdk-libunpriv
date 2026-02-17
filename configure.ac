@@ -41,11 +41,25 @@ AC_CHECK_LIB(cap, cap_init, LIBCAP_LIBS="-lcap"; has_linux_caps="yes", has_linux
 AC_SUBST(LIBCAP_LIBS)
 
 # Check for jsoncpp using pkg-config
-PKG_CHECK_MODULES([JSONCPP], [jsoncpp], [],
-[
-  PKG_CHECK_MODULES([JSONCPP], [libjsoncpp], [],
-    [AC_MSG_ERROR([jsoncpp pkg-config module not found])]
-  )
+# jsoncpp detection
+PKG_CHECK_MODULES([JSONCPP], [jsoncpp], [
+    AC_DEFINE([HAVE_JSONCPP], [1], [jsoncpp via pkgconfig])
+], [
+    PKG_CHECK_MODULES([JSONCPP], [libjsoncpp], [
+        AC_DEFINE([HAVE_JSONCPP], [1], [jsoncpp via libjsoncpp pc])
+    ], [
+        AC_CHECK_HEADER([json/json.h], [
+            AC_CHECK_LIB([jsoncpp], [Json::Value::Value], [
+                JSONCPP_LIBS="-ljsoncpp"
+                JSONCPP_CFLAGS=""
+                AC_DEFINE([HAVE_JSONCPP], [1], [jsoncpp via manual detection])
+            ], [
+                AC_MSG_ERROR([jsoncpp library found but linking failed])
+            ])
+        ], [
+            AC_MSG_ERROR([jsoncpp headers not found])
+        ])
+    ])
 ])
 
 AC_SUBST(JSONCPP_CFLAGS)
