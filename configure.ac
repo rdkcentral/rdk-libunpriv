@@ -51,8 +51,6 @@ PKG_CHECK_MODULES([JSONCPP], [jsoncpp], [],
 AC_SUBST(JSONCPP_CFLAGS)
 AC_SUBST(JSONCPP_LIBS)
 
-AC_SUBST(JSONCPP_LIBS)
-
 if test "x$has_linux_caps" = "xno"; then
     AC_MSG_CHECKING(whether to enable Linux capability support)
     AC_MSG_ERROR([$has_linux_caps])
