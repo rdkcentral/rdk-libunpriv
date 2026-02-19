@@ -41,13 +41,14 @@ AC_CHECK_LIB(cap, cap_init, LIBCAP_LIBS="-lcap"; has_linux_caps="yes", has_linux
 AC_SUBST(LIBCAP_LIBS)
 
 # Check for jsoncpp using pkg-config
-PKG_CHECK_MODULES([JSONCPP], [jsoncpp], [],
-  [AC_MSG_ERROR([jsoncpp not found. Install jsoncpp-devel])]
-)
+PKG_CHECK_MODULES([JSONCPP], [jsoncpp], [have_jsoncpp=yes], [
+  AC_MSG_WARN([jsoncpp not found via pkg-config, using default -ljsoncpp])
+  JSONCPP_CFLAGS=""
+  JSONCPP_LIBS="-ljsoncpp"
+  have_jsoncpp=yes
+])
 
 AC_SUBST(JSONCPP_CFLAGS)
-AC_SUBST(JSONCPP_LIBS)
-
 AC_SUBST(JSONCPP_LIBS)
 
 if test "x$has_linux_caps" = "xno"; then
