@@ -20,7 +20,10 @@
 #include "cap.h"
 #include "utility.h"
 #include <string.h>
+
+#ifndef GTEST_ENABLE
 #include <rbus/rbus.h>
+#endif
 
 #ifdef GTEST_ENABLE
 int __test_force_root = 0;
