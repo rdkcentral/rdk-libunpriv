@@ -40,6 +40,12 @@ AC_CHECK_HEADERS([stdlib.h string.h unistd.h])
 AC_CHECK_LIB(cap, cap_init, LIBCAP_LIBS="-lcap"; has_linux_caps="yes", has_linux_caps="no")
 AC_SUBST(LIBCAP_LIBS)
 
+PKG_CHECK_MODULES([JSONCPP], [jsoncpp], [have_jsoncpp=yes], [
+  AC_MSG_WARN([jsoncpp not found via pkg-config, using default -ljsoncpp])
+  JSONCPP_CFLAGS=""
+  JSONCPP_LIBS="-ljsoncpp"
+  have_jsoncpp=yes
+])
 
 if test "x$has_linux_caps" = "xno"; then
     AC_MSG_CHECKING(whether to enable Linux capability support)
