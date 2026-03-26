@@ -44,14 +44,13 @@ static bool fetchRFC(char *key,char **value)
     bool result = false;
     const char *strValue = NULL;
 
-    
     /* Initialize RBUS connection */
     rc = rbus_open(&handle, "fetchRFC_client");
     if (rc != RBUS_ERROR_SUCCESS) {
-        fprintf(stderr, "Failed to open RBUS handle: %d\n", rc);
+        log_cap("fetchRFC: rbus_open failed with error: %d", rc);
         return false;
     }
-    
+
     /* Get the RFC parameter value via RBUS */
     rc = rbus_get(handle, key, &paramValue);
     if (rc == RBUS_ERROR_SUCCESS && paramValue != NULL) {
@@ -60,7 +59,7 @@ static bool fetchRFC(char *key,char **value)
                 *value = (char*)malloc(strlen(strValue) + 1);
                 if (*value != NULL) {
                     strcpy(*value, strValue);
-		    log_cap("rbus get success %s=%s\n",key, strValue);
+                    log_cap("rbus get success %s=%s\n",key, strValue);
                     result = true;
                 }
             }
