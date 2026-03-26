@@ -35,7 +35,7 @@ cd "$top_srcdir"
 autoreconf --install
 ./configure
 make clean
-make
+make CFLAGS=" -I/usr/local/include/rbus" LDFLAGS="-L/usr/local/lib -Wl,-rpath,/usr/local/lib -lrbus"
 
 ###############################################################################
 # Step 2: Build L2 helper
