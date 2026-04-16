@@ -34,7 +34,7 @@ extern "C" {
                 #define LOG_FILE "/rdklogs/logs/CapDebug.txt"
         #endif
 #elif  defined (_RDK_VIDEO_PRIV_CAPS_)
-        #define LOG_FILE "/opt/logs/CapDebug.txt"
+        #define LOG_FILE "/opt/logs/unified-logging.txt"
 #else
         #define LOG_FILE "/rdklogs/logs/CapDebug.txt"
 #endif
