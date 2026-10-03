@@ -29,4 +29,4 @@ jobs:
           COVERITY_PASSWORD: ${{ secrets.COVERITY_PASSWORD }}
         run: |
           chmod +x cov_build.sh
-          sh -x cov_build.sh
+          ./cov_build.sh
