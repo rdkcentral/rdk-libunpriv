@@ -24,7 +24,7 @@ AM_CFLAGS=$(TRACE_CFLAGS) $(LIBCAP_CFLAGS)
 AM_CXXFLAGS = -Wall -std=c++1y
 lib_LTLIBRARIES = libprivilege.la
 libprivilege_la_SOURCES = cap.c utility.cpp
-libprivilege_la_LDFLAGS =$(TRACE_LIBS) 
+libprivilege_la_LDFLAGS =$(TRACE_LIBS)
 libprivilege_la_include_HEADERS = cap.h 
-libprivilege_la_LIBADD = $(LIBCAP_LIBS) $(JSONCPP_LIBS)
+libprivilege_la_LIBADD = $(LIBCAP_LIBS)  $(JSONCPP_LIBS) 
 libprivilege_la_includedir = ${includedir}
