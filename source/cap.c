@@ -20,6 +20,7 @@
 #include "cap.h"
 #include "utility.h"
 #include <string.h>
+#include <stdio.h>
 
 #ifdef GTEST_ENABLE
 int __test_force_root = 0;
@@ -281,6 +282,7 @@ int update_process_caps(cap_user *_appcaps)
 
    get_process_name(getpid(), process_name);
    cap_free(caps);
+   printf("Test Coverity %s");
    caps = NULL;
    return retval;
 }
