@@ -30,9 +30,6 @@
 #include <pwd.h>
 #include <errno.h>
 #include <stdbool.h>
-#ifdef _RDK_VIDEO_PRIV_CAPS_
-#include "rfcapi.h"
-#endif
 
 #ifdef GTEST_ENABLE
 extern int __test_force_root;

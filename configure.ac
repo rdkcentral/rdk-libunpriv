@@ -40,7 +40,6 @@ AC_CHECK_HEADERS([stdlib.h string.h unistd.h])
 AC_CHECK_LIB(cap, cap_init, LIBCAP_LIBS="-lcap"; has_linux_caps="yes", has_linux_caps="no")
 AC_SUBST(LIBCAP_LIBS)
 
-# Check for jsoncpp using pkg-config
 PKG_CHECK_MODULES([JSONCPP], [jsoncpp], [have_jsoncpp=yes], [
   AC_MSG_WARN([jsoncpp not found via pkg-config, using default -ljsoncpp])
   JSONCPP_CFLAGS=""
